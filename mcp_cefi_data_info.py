@@ -132,7 +132,6 @@ def get_level_options(
     region = is_match(region, dict_level_options.keys())
     if region is None:
         return "No matching region found."
-    
 
     if subdomain is None:
         return "\n".join(dict_level_options[region].keys())
@@ -197,6 +196,28 @@ def get_level_name() -> str:
     
     return "All the level category name from top to bottom\n"+"\n".join(list_level_names)
 
+@mcp.tool()
+def general_url_format(
+    region:str,
+    subdomain:str,
+    experiment_type:str,
+    output_frequency:str,
+    grid_type:str,
+    release_date:str,
+    variable_name_ncfile:str
+) -> str:
+    """Generate a general URL format for accessing CEFI data.
+    the general URL format is:
+    {region}/{subdomain}/{experiment_type}/{output_frequency}/{grid_type}/{release_date}/{variable_name_ncfile}
+
+    Returns
+    -------
+    str
+        all the level names/meaning corresponding to the keys in each level
+        in the CEFI data tree `dict_level_options`.
+    """
+    
+    return f"{region}/{subdomain}/{experiment_type}/{output_frequency}/{grid_type}/{release_date}/{variable_name_ncfile}"
 
 if __name__ == "__main__":
     # preload the CEFI data tree

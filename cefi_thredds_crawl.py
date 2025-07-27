@@ -1,6 +1,7 @@
 import httpx
 import xml.etree.ElementTree as ET
 from urllib.parse import urljoin
+import json
 
 # Constants
 CEFI_THREDDS_BASE = "https://psl.noaa.gov/thredds/catalog/Projects/CEFI/regional_mom6/cefi_portal/"
@@ -67,6 +68,15 @@ def find_all_files_thredds(base_catalog_url):
 
     return result
 
+if __name__ == "__main__":
 
-catalog_dict = find_all_files_thredds(CEFI_THREDDS_BASE)
-print(catalog_dict)
+    catalog_dict = find_all_files_thredds(CEFI_THREDDS_BASE)
+
+    # output to json format
+    print("Found catalogs and files:")
+    print(json.dumps(catalog_dict, indent=2))
+    # Optionally, you can save the output to a file
+    with open('cefi_thredds_catalog.json', 'w') as f:
+        json.dump(catalog_dict, f, indent=2)
+    print("Catalog information saved to 'cefi_thredds_catalog.json'")
+
