@@ -248,7 +248,7 @@ def get_variable_name_options(region,subdomain,experiment_type,output_frequency,
     Returns
     -------
     str
-        A string of available category.
+        A string of available variables.
     """
     global dict_data_tree
     variable_long_names = []
@@ -266,7 +266,6 @@ def get_variable_name_options(region,subdomain,experiment_type,output_frequency,
     all_filenames = "All available variable filename\n"+"\n".join(variable_filenames)
 
     return f"{all_long_names}\n\n{all_short_names}\n\n{all_filenames}"
-
 
 def general_url_format(
     region:str,
@@ -289,6 +288,58 @@ def general_url_format(
     """
     
     return f"{region}/{subdomain}/{experiment_type}/{output_frequency}/{grid_type}/{release_date}/{variable_name_ncfile}"
+
+@mcp.tool()
+def get_opendap_url(
+    region:str,
+    subdomain:str,
+    experiment_type:str,
+    output_frequency:str,
+    grid_type:str,
+    release_date:str,
+    variable_name_ncfile:str
+) -> str:
+    """
+    Get the OPeNDAP URL for the specified CEFI data.
+    
+    Parameters
+    ----------
+    region : str
+        The region for which to get the OPeNDAP URL.
+    subdomain : str         
+        The subdomain for which to get the OPeNDAP URL.
+    experiment_type : str
+        The experiment type for which to get the OPeNDAP URL.
+    output_frequency : str
+        The output frequency for which to get the OPeNDAP URL.
+    grid_type : str
+        The grid type for which to get the OPeNDAP URL.
+    release_date : str
+        The release date for which to get the OPeNDAP URL.
+    variable_name_ncfile : str
+        The filename for which to get the OPeNDAP URL.
+
+    Returns
+    -------
+    str
+        The OPeNDAP URL for the specified CEFI data.
+    """
+    
+    # Base opendap url
+    base_opendap_url = "http://psl.noaa.gov/thredds/dodsC/Projects/CEFI/regional_mom6/cefi_portal/"
+
+    # Get the general URL format
+    general_url = general_url_format(
+        region,
+        subdomain,
+        experiment_type,
+        output_frequency,
+        grid_type,
+        release_date,
+        variable_name_ncfile
+    )
+
+    return f"OPeNDAP URL : {base_opendap_url}{general_url}"
 
 if __name__ == "__main__":
     check_cefi_data_cache()
