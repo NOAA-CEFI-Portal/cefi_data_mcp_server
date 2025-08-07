@@ -5,6 +5,11 @@ description = "The MCP server for the CEFI Data Portal"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "dask>=2025.7.0",
+    "fsspec>=2025.7.0",
     "httpx>=0.28.1",
     "mcp[cli]>=1.12.1",
+    "netcdf4>=1.7.2",
+    "xarray>=2025.7.1",
+    "zarr>=3.1.0",
 ]
