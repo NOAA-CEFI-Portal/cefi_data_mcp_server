@@ -1,12 +1,7 @@
 import httpx
-import json
 from mcp.server.fastmcp import FastMCP
-# from cefi_thredds_crawl import find_all_files_thredds, CEFI_THREDDS_BASE
 
 CEFI_DATA_TREE_URL = "https://psl.noaa.gov/cefi_portal/data_option_json/cefi_data_tree.json"
-
-# preload the CEFI opendap available catalog
-# dict_catalog = find_all_files_thredds(CEFI_THREDDS_BASE)
 
 # Initialize FastMCP server
 mcp = FastMCP("cefi_data")
@@ -283,8 +278,7 @@ def general_url_format(
     Returns
     -------
     str
-        all the level names/meaning corresponding to the keys in each level
-        in the CEFI data tree `dict_level_options`.
+        the general URL for accessing CEFI data. It is part of the OPeNDAP URL/ http download URL/ Cloud object name.
     """
     
     return f"{region}/{subdomain}/{experiment_type}/{output_frequency}/{grid_type}/{release_date}/{variable_name_ncfile}"
@@ -340,6 +334,168 @@ def get_opendap_url(
     )
 
     return f"OPeNDAP URL : {base_opendap_url}{general_url}"
+
+@mcp.tool()
+def get_http_download_url(
+    region:str,
+    subdomain:str,
+    experiment_type:str,
+    output_frequency:str,
+    grid_type:str,
+    release_date:str,
+    variable_name_ncfile:str
+) -> str:
+    """
+    Get the http URL for downloading a specified CEFI data.
+    
+    Parameters
+    ----------
+    region : str
+        The region for which to get the download URL.
+    subdomain : str         
+        The subdomain for which to get the download URL.
+    experiment_type : str
+        The experiment type for which to get the download URL.
+    output_frequency : str
+        The output frequency for which to get the download URL.
+    grid_type : str
+        The grid type for which to get the download URL.
+    release_date : str
+        The release date for which to get the download URL.
+    variable_name_ncfile : str
+        The filename for which to get the download URL.
+
+    Returns
+    -------
+    str
+        The HTTP download URL for the specified CEFI data.
+    """
+
+    # Base opendap url
+    base_download_url = "https://psl.noaa.gov/thredds/fileServer/Projects/CEFI/regional_mom6/cefi_portal/"
+
+    # Get the general URL format
+    general_url = general_url_format(
+        region,
+        subdomain,
+        experiment_type,
+        output_frequency,
+        grid_type,
+        release_date,
+        variable_name_ncfile
+    )
+
+    return f"HTTP downloading URL : {base_download_url}{general_url}"
+
+@mcp.tool()
+def get_s3_object_link(
+    region:str,
+    subdomain:str,
+    experiment_type:str,
+    output_frequency:str,
+    grid_type:str,
+    release_date:str,
+    variable_name_ncfile:str
+) -> str:
+    """
+    Get the AWS S3 object link to a specific CEFI data.
+    
+    Parameters
+    ----------
+    region : str
+        The region for which to get the AWS S3 object link.
+    subdomain : str         
+        The subdomain for which to get the AWS S3 object link.
+    experiment_type : str
+        The experiment type for which to get the AWS S3 object link.
+    output_frequency : str
+        The output frequency for which to get the AWS S3 object link.
+    grid_type : str
+        The grid type for which to get the AWS S3 object link.
+    release_date : str
+        The release date for which to get the AWS S3 object link.
+    variable_name_ncfile : str
+        The filename for which to get the AWS S3 object link.
+
+    Returns
+    -------
+    str
+        The AWS S3 object link for the specified CEFI data.
+    """
+
+    # Base opendap url
+    S3_bucket = "s3://noaa-oar-cefi-regional-mom6-pds/"
+
+    # Get the general URL format
+    general_url = general_url_format(
+        region,
+        subdomain,
+        experiment_type,
+        output_frequency,
+        grid_type,
+        release_date,
+        variable_name_ncfile
+    )
+
+    return (
+        f"S3 object link URL : the netcdf file - {S3_bucket}{general_url} and "+
+        f"the kerchunk index file - {S3_bucket}{general_url[:-2]}.json"
+    )
+
+@mcp.tool()
+def get_gcs_object_link(
+    region:str,
+    subdomain:str,
+    experiment_type:str,
+    output_frequency:str,
+    grid_type:str,
+    release_date:str,
+    variable_name_ncfile:str
+) -> str:
+    """
+    Get the GCS object link to a specific CEFI data.
+    
+    Parameters
+    ----------
+    region : str
+        The region for which to get the GCS object link.
+    subdomain : str         
+        The subdomain for which to get the GCS object link.
+    experiment_type : str
+        The experiment type for which to get the GCS object link.
+    output_frequency : str
+        The output frequency for which to get the GCS object link.
+    grid_type : str
+        The grid type for which to get the GCS object link.
+    release_date : str
+        The release date for which to get the GCS object link.
+    variable_name_ncfile : str
+        The filename for which to get the GCS object link.
+
+    Returns
+    -------
+    str
+        The GCS object link for the specified CEFI data.
+    """
+
+    # Base opendap url
+    GCS_bucket = "gcs://noaa-oar-cefi-regional-mom6/"
+
+    # Get the general URL format
+    general_url = general_url_format(
+        region,
+        subdomain,
+        experiment_type,
+        output_frequency,
+        grid_type,
+        release_date,
+        variable_name_ncfile
+    )
+
+    return (
+        f"GCS object link URL : the netcdf file - {GCS_bucket}{general_url} and "+
+        f"the kerchunk index file - {GCS_bucket}{general_url[:-2]}.json"
+    )
 
 if __name__ == "__main__":
     check_cefi_data_cache()
