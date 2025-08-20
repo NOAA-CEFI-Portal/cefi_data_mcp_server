@@ -264,17 +264,6 @@ def get_point_forecast(
 
     return json.dumps(dict_ts)
 
-input = {
-  "latitude": 40,
-  "longitude": -70,
-  "opendap_url": "http://psl.noaa.gov/thredds/dodsC/Projects/CEFI/regional_mom6/cefi_portal/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.nc",
-  "cefi_variable": "tos",
-  "s3_object_link_kerchunk_index": "s3://noaa-oar-cefi-regional-mom6-pds/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.json",
-  "gcs_object_link_kerchunk_index": "gcs://noaa-oar-cefi-regional-mom6/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.json"
-}
-
-get_point_forecast(**input)
-
 if __name__ == "__main__":
 
 
