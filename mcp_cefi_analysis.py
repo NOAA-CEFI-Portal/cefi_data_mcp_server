@@ -1,4 +1,5 @@
 from typing import Literal, Optional
+import json
 from mcp.server.fastmcp import FastMCP
 import xarray as xr
 import fsspec
@@ -65,7 +66,7 @@ def get_opendap_data(
     """
     # using fsspec to read the kerchunk index file
     try:
-        ds = xr.open_dataset(opendap_url)
+        ds = xr.open_dataset(opendap_url,chunks='auto')
         return ds
 
     except Exception as e:
@@ -160,8 +161,122 @@ def get_file_metadata(
 
     return meta_data
 
+@mcp.tool()
+def get_point_time_series(
+    opendap_url:str,
+    s3_object_link_kerchunk_index:str,
+    gcs_object_link_kerchunk_index:str,
+    start_date:str,
+    end_date:str,
+    longitude:float,
+    latitude:float,
+    cefi_variable:str
+) -> dict:
+    """
+    Get the pointwise time series from the hindcast dataset.
 
+    Parameters
+    ----------
+    opendap_url : str
+        The OPeNDAP URL to the dataset.
+    s3_object_link_kerchunk_index : str
+        The S3 object link to the kerchunk index file.
+    gcs_object_link_kerchunk_index : str
+        The GCS object link to the kerchunk index file.
+
+    Returns
+    -------
+    dict
+        A dictionary containing the pointwise time series data.
+    """
+    ds = get_available_data(
+        opendap_url,
+        s3_object_link_kerchunk_index,
+        gcs_object_link_kerchunk_index
+    )
+
+    time_series = (
+        ds[cefi_variable]
+        .sel(time=slice(start_date, end_date))
+        .sel(lon=longitude, lat=latitude, method='nearest')
+    ).values.tolist()
+
+    dict_ts = {'time series':time_series}
+
+    return json.dumps(dict_ts)
+
+@mcp.tool()
+def get_point_forecast(
+    opendap_url:str,
+    s3_object_link_kerchunk_index:str,
+    gcs_object_link_kerchunk_index:str,
+    longitude:float,
+    latitude:float,
+    cefi_variable:str
+) -> dict:
+    """
+    Get the pointwise forecast from the forecast dataset.
+    - seasonal forecast
+    - seasonal reforecast
+    - decadal forecast
+
+    Parameters
+    ----------
+    opendap_url : str
+        The OPeNDAP URL to the dataset.
+    s3_object_link_kerchunk_index : str
+        The S3 object link to the kerchunk index file.
+    gcs_object_link_kerchunk_index : str
+        The GCS object link to the kerchunk index file.
+
+    Returns
+    -------
+    dict
+        A dictionary containing the pointwise forecast data.
+    """
+    ds = get_available_data(
+        opendap_url,
+        s3_object_link_kerchunk_index,
+        gcs_object_link_kerchunk_index
+    )
+
+    ensmean_forecast = (
+        ds[cefi_variable]
+        .sel(lon=longitude, lat=latitude, method='nearest')
+        .mean(dim='member', skipna=True, keep_attrs=True)
+    ).values.tolist()
+
+    ens_forecasts = []
+    ens_number = ds['member'].data
+    for num in ens_number:
+        ens_forecast = (
+            ds[cefi_variable]
+            .sel(lon=longitude, lat=latitude, method='nearest')
+            .sel(member=num)
+        ).values.tolist()
+        ens_forecasts.append(ens_forecast)
+
+
+    dict_ts = {
+        'ensemble mean forecast':ensmean_forecast,
+        'ensemble forecasts':ens_forecasts
+    }
+
+    return json.dumps(dict_ts)
+
+input = {
+  "latitude": 40,
+  "longitude": -70,
+  "opendap_url": "http://psl.noaa.gov/thredds/dodsC/Projects/CEFI/regional_mom6/cefi_portal/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.nc",
+  "cefi_variable": "tos",
+  "s3_object_link_kerchunk_index": "s3://noaa-oar-cefi-regional-mom6-pds/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.json",
+  "gcs_object_link_kerchunk_index": "gcs://noaa-oar-cefi-regional-mom6/northwest_atlantic/full_domain/seasonal_forecast/monthly/regrid/r20250413/tos.nwa.full.ss_fcast.monthly.regrid.r20250413.enss.i202507.json"
+}
+
+get_point_forecast(**input)
 
 if __name__ == "__main__":
+
+
     # Initialize and run the server
     mcp.run(transport='stdio')
