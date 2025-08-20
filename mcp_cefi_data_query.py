@@ -1,4 +1,5 @@
 import httpx
+import json
 from mcp.server.fastmcp import FastMCP
 
 CEFI_DATA_TREE_URL = "https://psl.noaa.gov/cefi_portal/data_option_json/cefi_data_tree.json"
@@ -213,11 +214,16 @@ def get_variable_category_options(region,subdomain,experiment_type,output_freque
         A string of available category.
     """
     global dict_data_tree
+
     categories = []
     for category in dict_data_tree[region][subdomain][experiment_type][output_frequency][grid_type][release_date].keys():
         categories.append(category)
 
-    return "\n".join(categories)
+    # return "\n".join(categories)
+    dict_categories = {"all_categories": categories}
+
+    return json.dumps(dict_categories)
+
 
 @mcp.tool()
 def get_variable_name_options(region,subdomain,experiment_type,output_frequency,grid_type,release_date,variable_catagory) -> str:
@@ -439,7 +445,7 @@ def get_s3_object_link(
 
     return (
         f"S3 object link URL : the netcdf file - {S3_bucket}{general_url} and "+
-        f"the kerchunk index file - {S3_bucket}{general_url[:-2]}.json"
+        f"the kerchunk index file - {S3_bucket}{general_url[:-2]}json"
     )
 
 @mcp.tool()
@@ -494,7 +500,7 @@ def get_gcs_object_link(
 
     return (
         f"GCS object link URL : the netcdf file - {GCS_bucket}{general_url} and "+
-        f"the kerchunk index file - {GCS_bucket}{general_url[:-2]}.json"
+        f"the kerchunk index file - {GCS_bucket}{general_url[:-2]}json"
     )
 
 if __name__ == "__main__":
