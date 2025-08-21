@@ -21,24 +21,24 @@ Installation steps may differ based on your MCP client or AI application (such a
     Create and edit the Claude Desktop configuration file to register your MCP servers, then enable them in the Claude Desktop app.
 ---
 
-#### Clone the repository
+### Clone the repository
 For local setup, start by cloning this repository to your machine. In your preferred directory, run:
 ```bash
 git clone git@github.com:NOAA-CEFI-Portal/cefi_data_mcp_server.git
 ```
 ---
-#### Install dependencies
+### Install dependencies
 After cloning the repository to your local directory, you'll need `uv`, an extremely fast Python package and project manager.
 
 If `uv` is not already installed on your machine, follow the instructions below based on your operating system:
 
-##### Mac/Linux
+#### Mac/Linux
 ```bash
 # Use curl
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-##### Windows
+#### Windows
 ```powershell
 # Install uv if not already installed
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
@@ -58,21 +58,21 @@ source .venv/bin/activate
 
 ```
 ---
-#### Configure Claude Desktop
+### Configure Claude Desktop
 The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-server-with-claude-for-desktop) also has useful explanation and setup. Here, we summarize into the following steps.
 1. Download latest version of Claude Desktop (https://claude.ai/download)
 2. Create the Claude Desktop configuration file (any text editor. using vscode for demo)
-    ##### Mac/Linux
+    #### Mac/Linux
     ```bash
     code ~/Library/Application\ Support/Claude/claude_desktop_config.json
     ```
-    ##### Windows
+    #### Windows
     ```powershell
     code $env:AppData\Claude\claude_desktop_config.json
     ```
 
 3. Copy Paste the following into configuration file
-    ##### Mac/Linux
+    #### Mac/Linux
     ```
     {
       "mcpServers": {
@@ -97,7 +97,7 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
       }
     }
     ```
-    ##### Windows
+    #### Windows
     ```
     {
       "mcpServers": {
