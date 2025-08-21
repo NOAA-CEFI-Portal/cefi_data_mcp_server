@@ -140,4 +140,6 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
 
 **Claude** :
 
-![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.mov)
+![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.gif)
+
+***Click the image to replay***
