@@ -2,6 +2,9 @@
 
 This repository provides the essential server components for working with the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro). MCP enables you to build a personalized "agent" that leverages various large language models (LLMs) to process, analyze, and interact with external data. By creating MCP servers, you can create intelligent agents tailored to your specific requirements. Here, we build the CEFI MCP servers to serve as users' personal "CEFI AI agent" for various CEFI data queries, data analysis, and even creating interactive plots if the LLM client supports this capability.
 
+![MCP concept](docs/images/mcp_concept.png)
+The idea is to create topic- or event-specific MCP servers that focus on leveraging relevant external resources. These servers manage and return useful data or information to the LLM, enabling it to generate structured, resource-specific responses tailored to the user's needs.
+
 ## Installation
 Installation steps may differ based on your MCP client or AI application (such as VS Code with copilet or Claude Desktop). Below, we outline the setup process for Claude Desktop using a local environment. With this approach, the MCP server runs on your local machine and depends on your internet connection. Support for remote server deployment is planned for future releases.
 
