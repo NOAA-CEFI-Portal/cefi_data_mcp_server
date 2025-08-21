@@ -1,4 +1,4 @@
-# CEFI MCP server
+# CEFI Data MCP server
 
 This repository provides the essential server components for working with the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro). MCP enables you to build a personalized "agent" that leverages various large language models (LLMs) to process, analyze, and interact with external data. By creating MCP servers, you can create intelligent agents tailored to your specific requirements. Here, we build the CEFI MCP servers to serve as users' personal "CEFI AI agent" for various CEFI data queries, data analysis, and even creating interactive plots if the LLM client supports this capability.
 
