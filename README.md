@@ -120,4 +120,3 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
     ![Claude Desktop tool enable button](docs/images/tool_enable.gif)
 
 ## CEFI AI Agent Demo
-![Claude Desktop CEFI AI agent demo](docs/images/tool_enable.gif)
