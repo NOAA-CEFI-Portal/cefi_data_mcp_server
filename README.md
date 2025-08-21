@@ -136,4 +136,4 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
 
 ---
 ## CEFI AI Agent Demo
-![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.gif)
+![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.mov)
