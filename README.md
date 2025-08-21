@@ -15,24 +15,18 @@ After cloning the repository to your local directory, you'll need `uv`, an extre
 
 If `uv` is not already installed on your machine, follow the instructions below based on your operating system:
 
-<Tabs>
-<TabItem value="mac-linux" label="Mac/Linux">
-
+#### Mac/Linux
 ```bash
 # Use curl
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-</TabItem>
-<TabItem value="windows" label="Windows">
-
+#### Windows
 ```powershell
 # Install uv if not already installed
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-</TabItem>
-</Tabs>
 
 Once `uv` is installed, you can use `uv` set up the Python environment required to run the MCP server. 
 ```bash
@@ -51,26 +45,17 @@ source .venv/bin/activate
 The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-server-with-claude-for-desktop) also has useful explanation and setup. Here, we summarize into the following steps.
 1. Download latest version of Claude Desktop (https://claude.ai/download)
 2. Create the Claude Desktop configuration file (any text editor. using vscode for demo)
-    <Tabs>
-    <TabItem value="mac-linux" label="Mac/Linux">
-
+    #### Mac/Linux
     ```bash
     code ~/Library/Application\ Support/Claude/claude_desktop_config.json
     ```
-
-    </TabItem>
-    <TabItem value="windows" label="Windows">
-
+    #### Windows
     ```powershell
     code $env:AppData\Claude\claude_desktop_config.json
     ```
 
-    </TabItem>
-    </Tabs>
 3. Copy Paste the following into configuration file
-    <Tabs>
-    <TabItem value="mac-linux" label="Mac/Linux">
-
+    #### Mac/Linux
     ```
     {
       "mcpServers": {
@@ -95,10 +80,7 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
       }
     }
     ```
-
-    </TabItem>
-    <TabItem value="windows" label="Windows">
-
+    #### Windows
     ```
     {
       "mcpServers": {
@@ -123,9 +105,6 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
       }
     }
     ```
-
-    </TabItem>
-    </Tabs>
     
     ---
 
