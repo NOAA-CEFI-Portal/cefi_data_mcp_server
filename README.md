@@ -136,4 +136,8 @@ The [MCP page](https://modelcontextprotocol.io/quickstart/server#testing-your-se
 
 ---
 ## CEFI AI Agent Demo
-![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.gif)
+**Prompt** : "Can you show me the plot of the sea surface temperature forecast based on the newest nwatlantic forecast"
+
+**Claude** :
+
+![Claude Desktop CEFI AI demo](docs/images/cefi_mcp_demo.mov)
